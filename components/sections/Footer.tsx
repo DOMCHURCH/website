@@ -1,12 +1,24 @@
 import { NAV_LINKS } from "@/lib/data";
+import { MaskReveal } from "@/components/ui/MaskReveal";
 
 export function Footer() {
   return (
     <footer
-      className="w-full bg-ink"
+      className="relative w-full overflow-hidden bg-ink"
       style={{ borderTop: "1px solid rgba(107,96,88,0.2)" }}
     >
-      <div className="mx-auto flex max-w-[1280px] flex-wrap items-center justify-between gap-7 px-6 py-14 sm:px-14">
+      {/* Oversized wordmark statement */}
+      <div className="mx-auto max-w-[1280px] px-6 pt-32 sm:px-14 sm:pt-44">
+        <MaskReveal
+          as="div"
+          stagger={0.02}
+          className="section-title text-[clamp(64px,18vw,280px)] leading-[0.82] text-cream"
+        >
+          Groundwork
+        </MaskReveal>
+      </div>
+
+      <div className="mx-auto mt-20 flex max-w-[1280px] flex-wrap items-center justify-between gap-7 border-t border-white/10 px-6 py-12 sm:px-14">
         <a
           href="#top"
           className="font-mono text-sm font-medium uppercase tracking-[0.28em] text-cream"

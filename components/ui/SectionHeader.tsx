@@ -3,16 +3,22 @@
 import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
+import { MaskReveal } from "@/components/ui/MaskReveal";
 
 /**
- * Section eyebrow: a mono label beside a hairline rule that draws in from the
- * left on scroll (scaleX 0→1, power3.out) — matches the source design.
+ * Editorial section header — an index numeral + mono eyebrow beside a hairline
+ * rule that draws in on scroll, with an optional oversized serif title that
+ * reveals word-by-word. The luxury "chapter opener."
  */
 export function SectionHeader({
-  label,
+  index,
+  eyebrow,
+  title,
   className = "",
 }: {
-  label: string;
+  index: string;
+  eyebrow: string;
+  title?: string;
   className?: string;
 }) {
   const line = useRef<HTMLSpanElement>(null);
@@ -33,13 +39,25 @@ export function SectionHeader({
   }, []);
 
   return (
-    <div className={`flex items-baseline gap-5 ${className}`}>
-      <span className="kicker whitespace-nowrap">{label}</span>
-      <span
-        ref={line}
-        className="h-px flex-1 bg-taupe/28"
-        style={{ backgroundColor: "rgba(107,96,88,0.28)" }}
-      />
+    <div className={className}>
+      <div className="flex items-baseline gap-5">
+        <span className="kicker text-copper">{index}</span>
+        <span className="kicker">{eyebrow}</span>
+        <span
+          ref={line}
+          className="h-px flex-1"
+          style={{ backgroundColor: "rgba(107,96,88,0.28)" }}
+        />
+      </div>
+
+      {title && (
+        <MaskReveal
+          as="h2"
+          className="section-title mt-8 text-[clamp(40px,6.5vw,92px)]"
+        >
+          {title}
+        </MaskReveal>
+      )}
     </div>
   );
 }

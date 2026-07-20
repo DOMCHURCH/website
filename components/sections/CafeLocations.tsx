@@ -6,9 +6,18 @@ const HAIRLINE = "rgba(107,96,88,0.24)";
 
 export function CafeLocations() {
   return (
-    <section id="cafes" className="w-full bg-espresso">
-      <div className="mx-auto max-w-[1280px] px-6 py-28 sm:px-14 sm:py-32">
-        <SectionHeader label="Café Locations" className="mb-16" />
+    <section id="cafes" className="relative w-full overflow-hidden bg-espresso">
+      <span className="index-numeral absolute -right-4 top-16 text-[30vw] sm:text-[22vw]">
+        03
+      </span>
+
+      <div className="relative mx-auto max-w-[1280px] px-6 py-32 sm:px-14 sm:py-44">
+        <SectionHeader
+          index="03"
+          eyebrow="Visit"
+          title="Three counters, one craft"
+          className="mb-20 sm:mb-28"
+        />
 
         <div
           className="grid grid-cols-1 gap-px md:grid-cols-3"
@@ -18,12 +27,12 @@ export function CafeLocations() {
             <Reveal
               key={cafe.name}
               delay={i * 0.09}
-              className="card-lift bg-espresso px-10 py-12"
+              className="card-lift bg-espresso px-11 py-14"
             >
-              <h3 className="font-serif text-[52px] font-light leading-none text-cream">
+              <h3 className="font-serif text-[56px] font-light leading-none text-cream">
                 {cafe.name}
               </h3>
-              <div className="mt-6 font-mono text-xs leading-[1.9] tracking-[0.1em] text-taupe">
+              <div className="mt-7 font-mono text-xs leading-[2] tracking-[0.1em] text-taupe">
                 {cafe.street}
                 <br />
                 {cafe.city}

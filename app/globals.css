@@ -49,6 +49,17 @@
     color: var(--color-cream);
     font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
     overflow-x: hidden;
+    line-height: 1.6;
+    font-feature-settings: "kern", "liga", "calt";
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
   }
 
   a {
@@ -78,6 +89,99 @@
   font-size: 11px;
   letter-spacing: 0.28em;
   color: var(--color-taupe);
+}
+
+/* Oversized editorial index numeral (01–05) — luxury watermark */
+@utility index-numeral {
+  font-family: var(--font-serif), serif;
+  font-weight: 300;
+  line-height: 1;
+  color: color-mix(in srgb, var(--color-cream) 100%, transparent);
+  opacity: 0.05;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Editorial serif section title */
+@utility section-title {
+  font-family: var(--font-serif), serif;
+  font-weight: 300;
+  line-height: 0.98;
+  letter-spacing: -0.01em;
+  color: var(--color-cream);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Word-mask reveal — each word rides up out of an overflow-clip line */
+/*  (transform-only, the signature editorial heading reveal)           */
+/* ------------------------------------------------------------------ */
+.mask-line {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: top;
+}
+.mask-word {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* ------------------------------------------------------------------ */
+/*  Custom cursor (fine-pointer devices only; native cursor hidden     */
+/*  while active). Transform-driven via GSAP quickTo — very cheap.     */
+/* ------------------------------------------------------------------ */
+.cursor-active,
+.cursor-active a,
+.cursor-active button {
+  cursor: none;
+}
+.gw-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  pointer-events: none;
+  border-radius: 9999px;
+  will-change: transform;
+  mix-blend-mode: difference;
+  display: none; /* shown only once the cursor activates (fine pointers) */
+}
+.cursor-active .gw-cursor {
+  display: block;
+}
+.gw-cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: #fff;
+}
+.gw-cursor-ring {
+  width: 42px;
+  height: 42px;
+  margin: -21px 0 0 -21px;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  transition:
+    width 0.3s ease,
+    height 0.3s ease,
+    margin 0.3s ease,
+    border-color 0.3s ease;
+}
+.gw-cursor-ring.is-hover {
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  border-color: var(--color-copper);
+}
+
+/* ------------------------------------------------------------------ */
+/*  Filmic grain — fixed, opacity-only (no blend mode → cheap on scroll) */
+/* ------------------------------------------------------------------ */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* Animated marquee for the origin ticker */
