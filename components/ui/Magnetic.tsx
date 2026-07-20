@@ -27,21 +27,32 @@ export function Magnetic({
     const xTo = gsap.quickTo(el, "x", { duration: 0.5, ease: "power3" });
     const yTo = gsap.quickTo(el, "y", { duration: 0.5, ease: "power3" });
 
-    const move = (e: PointerEvent) => {
+    // Cache the rect on enter so pointermove never reads layout (no thrash).
+    let cx = 0;
+    let cy = 0;
+    let halfW = 1;
+    let halfH = 1;
+    const enter = () => {
       const r = el.getBoundingClientRect();
-      const relX = (e.clientX - (r.left + r.width / 2)) / (r.width / 2);
-      const relY = (e.clientY - (r.top + r.height / 2)) / (r.height / 2);
-      xTo(relX * strength);
-      yTo(relY * strength);
+      halfW = r.width / 2;
+      halfH = r.height / 2;
+      cx = r.left + halfW;
+      cy = r.top + halfH;
+    };
+    const move = (e: PointerEvent) => {
+      xTo(((e.clientX - cx) / halfW) * strength);
+      yTo(((e.clientY - cy) / halfH) * strength);
     };
     const leave = () => {
       xTo(0);
       yTo(0);
     };
 
+    el.addEventListener("pointerenter", enter);
     el.addEventListener("pointermove", move);
     el.addEventListener("pointerleave", leave);
     return () => {
+      el.removeEventListener("pointerenter", enter);
       el.removeEventListener("pointermove", move);
       el.removeEventListener("pointerleave", leave);
     };
