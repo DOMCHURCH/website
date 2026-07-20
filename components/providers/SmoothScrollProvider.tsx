@@ -4,12 +4,12 @@ import Lenis from "lenis";
 import { type ReactNode } from "react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
-import { prefersReducedMotion } from "@/lib/useReducedMotion";
 
 /**
- * Lenis smooth scroll wired into the GSAP ticker — matches the source design's
- * config (duration 1.15, expo-out easing). Skipped under reduced motion so
- * native scroll drives ScrollTrigger.
+ * Lenis smooth scroll wired into the GSAP ticker (duration 1.15, expo-out
+ * easing — from the source design). Always active so the cinematic scroll feel
+ * is consistent; ScrollTrigger is refreshed after fonts/asset load so reveal
+ * positions stay exact.
  */
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   useIsomorphicLayoutEffect(() => {
@@ -18,11 +18,6 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
     const refresh = () => ScrollTrigger.refresh();
     window.addEventListener("load", refresh);
     if (document.fonts) document.fonts.ready.then(refresh).catch(() => {});
-
-    if (prefersReducedMotion()) {
-      ScrollTrigger.refresh();
-      return () => window.removeEventListener("load", refresh);
-    }
 
     const lenis = new Lenis({
       duration: 1.15,

@@ -18,7 +18,7 @@ export function CafeLocations() {
             <Reveal
               key={cafe.name}
               delay={i * 0.09}
-              className="bg-espresso px-10 py-12"
+              className="card-lift bg-espresso px-10 py-12"
             >
               <h3 className="font-serif text-[52px] font-light leading-none text-cream">
                 {cafe.name}

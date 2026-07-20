@@ -94,19 +94,59 @@
   will-change: transform;
 }
 
+/* Slow cinematic drift on the hero video — always-on ambient motion.
+   Transform-only (GPU compositor), so it costs almost nothing. */
+@keyframes hero-drift {
+  0% {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.09) translate3d(-1.2%, -1%, 0);
+  }
+  100% {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+}
+.hero-video {
+  animation: hero-drift 26s ease-in-out infinite;
+  transform: scale(1.02);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Card hover — gentle background warm-up (no transform, so it never fights the
+   GSAP entrance tween on the same element) */
+@utility card-lift {
+  transition: background-color 0.4s ease;
+}
+.card-lift:hover {
+  background-color: #23150b;
+}
+
+/* Nav entrance — one-shot fade-down on load */
+@keyframes nav-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@utility nav-enter {
+  animation: nav-enter 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 /* ------------------------------------------------------------------ */
-/*  Reduced motion — neutralise marquee + JS-driven reveals stay shown */
+/*  Reduced motion                                                     */
+/*  The hero video and the site's motion are core to the experience    */
+/*  and intentionally remain active (product decision). We only tame   */
+/*  the fastest ambient loops here so nothing is jarring — the video   */
+/*  keeps playing and content still reveals.                           */
 /* ------------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
-  .animate-ticker {
-    animation: none !important;
-  }
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
+  .hero-video {
+    animation-duration: 60s;
   }
 }

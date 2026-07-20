@@ -3,7 +3,6 @@
 import { useRef, type ReactNode } from "react";
 import { gsap } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
-import { prefersReducedMotion } from "@/lib/useReducedMotion";
 
 type Tag = "div" | "li" | "blockquote";
 
@@ -31,7 +30,7 @@ export function Reveal({
 
   useIsomorphicLayoutEffect(() => {
     const el = ref.current;
-    if (!el || prefersReducedMotion()) return;
+    if (!el) return;
     const ctx = gsap.context(() => {
       gsap.from(el, {
         y,

@@ -18,7 +18,7 @@ export function FeaturedRoasts() {
             <Reveal
               key={roast.name}
               delay={i * 0.09}
-              className="flex min-h-[380px] flex-col bg-espresso px-10 pb-10 pt-11"
+              className="card-lift flex min-h-[380px] flex-col bg-espresso px-10 pb-10 pt-11"
             >
               <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-copper">
                 {roast.level}

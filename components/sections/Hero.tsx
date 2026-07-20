@@ -3,15 +3,20 @@
 import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
-import { prefersReducedMotion } from "@/lib/useReducedMotion";
 
+/**
+ * Hero — the launch video is the centerpiece and plays AT ALL TIMES (muted,
+ * looping, autoplay), independent of prefers-reduced-motion, per product
+ * requirement. A watchdog restarts it if the browser ever stalls or pauses it.
+ * Copy staggers in on load; the video carries a slow cinematic drift.
+ */
 export function Hero() {
   const copy = useRef<HTMLDivElement>(null);
   const video = useRef<HTMLVideoElement>(null);
 
-  // Hero copy entrance — h1 / p / a stagger in on load (source: y40, 1.1s).
+  // Copy entrance — h1 / p / a stagger in on load.
   useIsomorphicLayoutEffect(() => {
-    if (prefersReducedMotion() || !copy.current) return;
+    if (!copy.current) return;
     const ctx = gsap.context(() => {
       gsap.from(copy.current!.querySelectorAll("h1, p, a"), {
         y: 40,
@@ -25,34 +30,51 @@ export function Hero() {
     return () => ctx.revert();
   }, []);
 
-  // Autoplay + resilience: keep the muted loop running; restart if the browser
-  // stalls or pauses it (mirrors the source's watchdog). Paused under reduced
-  // motion — the poster shows instead.
+  // Bulletproof autoplay: pick the device-appropriate encode, force muted
+  // inline playback, and keep it running with a watchdog (mirrors the source).
   useIsomorphicLayoutEffect(() => {
     const v = video.current;
     if (!v) return;
-    if (prefersReducedMotion()) {
-      try {
-        v.pause();
-      } catch {}
-      return;
-    }
+
+    const mobile = window.matchMedia("(max-width: 768px)").matches;
+    v.src = mobile ? "/hero-mobile.mp4" : "/hero.mp4";
     v.muted = true;
+    v.defaultMuted = true;
+    v.playsInline = true;
+    try {
+      v.load();
+    } catch {}
+
     const kick = () => {
       v.muted = true;
       const p = v.play();
       if (p && p.catch) p.catch(() => {});
     };
     kick();
-    v.addEventListener("pause", () => {
+
+    const onPause = () => {
       if (!v.ended) kick();
-    });
+    };
+    v.addEventListener("pause", onPause);
+
+    // Restart if playback stalls (tab refocus, decode hiccup, etc.).
     let last = -1;
     const watch = window.setInterval(() => {
       if (v.paused || v.currentTime === last) kick();
       last = v.currentTime;
     }, 500);
-    return () => window.clearInterval(watch);
+
+    // Resume immediately when the tab becomes visible again.
+    const onVis = () => {
+      if (!document.hidden) kick();
+    };
+    document.addEventListener("visibilitychange", onVis);
+
+    return () => {
+      v.removeEventListener("pause", onPause);
+      document.removeEventListener("visibilitychange", onVis);
+      window.clearInterval(watch);
+    };
   }, []);
 
   return (
@@ -68,14 +90,10 @@ export function Hero() {
         playsInline
         preload="auto"
         poster="/hero-poster.jpg"
-        className="absolute inset-0 h-full w-full object-cover"
-        style={{ transform: "translateZ(0)", backfaceVisibility: "hidden" }}
-      >
-        <source src="/hero.mp4" type="video/mp4" />
-      </video>
+        className="hero-video absolute inset-0 h-full w-full object-cover"
+      />
 
-      {/* Subtle scrim — keeps copy legible over any frame without hiding the
-          footage; barely perceptible against the already-dark video. */}
+      {/* Legibility scrim — subtle, keeps copy readable over any frame. */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{

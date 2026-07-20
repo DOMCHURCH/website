@@ -2,7 +2,7 @@ import { NAV_LINKS } from "@/lib/data";
 
 export function Nav() {
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-6 sm:px-10 sm:py-[30px] lg:px-14">
+    <nav className="nav-enter fixed inset-x-0 top-0 z-50 flex items-center justify-between px-6 py-6 sm:px-10 sm:py-[30px] lg:px-14">
       <a
         href="#top"
         className="font-mono text-sm font-medium uppercase tracking-[0.28em] text-cream"

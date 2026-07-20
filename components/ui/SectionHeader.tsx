@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
-import { prefersReducedMotion } from "@/lib/useReducedMotion";
 
 /**
  * Section eyebrow: a mono label beside a hairline rule that draws in from the
@@ -20,7 +19,7 @@ export function SectionHeader({
 
   useIsomorphicLayoutEffect(() => {
     const el = line.current;
-    if (!el || prefersReducedMotion()) return;
+    if (!el) return;
     const ctx = gsap.context(() => {
       gsap.from(el, {
         scaleX: 0,
