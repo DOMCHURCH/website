@@ -1,5 +1,6 @@
 import { Loader } from "@/components/ui/Loader";
 import { Cursor } from "@/components/ui/Cursor";
+import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { Nav } from "@/components/sections/Nav";
 import { Hero } from "@/components/sections/Hero";
 import { OriginTicker } from "@/components/sections/OriginTicker";
@@ -13,6 +14,7 @@ export default function Home() {
     <>
       <Loader />
       <Cursor />
+      <ScrollProgress />
       <div className="grain" aria-hidden="true" />
       <Nav />
       <main>

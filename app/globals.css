@@ -207,13 +207,31 @@
   backface-visibility: hidden;
 }
 
-/* Card hover — gentle background warm-up (no transform, so it never fights the
-   GSAP entrance tween on the same element) */
+/* Card hover — snappy background warm-up (<250ms per motion blueprint; no
+   transform, so it never fights the GSAP entrance tween on the same element) */
 @utility card-lift {
-  transition: background-color 0.4s ease;
+  transition: background-color 0.2s ease;
 }
 .card-lift:hover {
   background-color: #23150b;
+}
+
+/* Hero scroll cue — a copper tick that falls and fades, inviting scroll */
+@keyframes scroll-cue {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(220%);
+    opacity: 0;
+  }
+}
+.scroll-cue-line {
+  animation: scroll-cue 2s cubic-bezier(0.7, 0, 0.2, 1) infinite;
 }
 
 /* Nav entrance — one-shot fade-down on load */

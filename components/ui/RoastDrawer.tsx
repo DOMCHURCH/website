@@ -82,7 +82,7 @@ export function RoastDrawer({
       {/* Backdrop (no blur — cheap) */}
       <div
         onClick={onClose}
-        className={`absolute inset-0 bg-ink/80 transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`absolute inset-0 bg-ink/80 transition-opacity duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           open ? "opacity-100" : "opacity-0"
         }`}
       />
@@ -94,7 +94,7 @@ export function RoastDrawer({
         aria-modal="true"
         aria-labelledby="roast-drawer-title"
         data-lenis-prevent
-        className="absolute right-0 top-0 h-full w-[min(92vw,540px)] overflow-y-auto bg-espresso shadow-[0_0_80px_-20px_rgba(0,0,0,0.9)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
+        className="absolute right-0 top-0 h-full w-[min(92vw,540px)] overflow-y-auto bg-espresso shadow-[0_0_80px_-20px_rgba(0,0,0,0.9)] transition-transform duration-[340ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
         style={{ transform: open ? "translateX(0)" : "translateX(100%)" }}
       >
         {roast && (
@@ -189,7 +189,7 @@ export function RoastDrawer({
               <Magnetic strength={10}>
                 <a
                   href="#"
-                  className="inline-block border border-copper px-8 py-4 text-[13px] font-medium tracking-[0.06em] text-cream transition-colors duration-200 hover:bg-copper hover:text-ink"
+                  className="inline-block border border-copper px-8 py-4 text-[13px] font-medium tracking-[0.06em] text-cream transition-[background-color,color,transform] duration-200 ease-out hover:bg-copper hover:text-ink active:scale-[0.97]"
                 >
                   Add to Bag
                 </a>

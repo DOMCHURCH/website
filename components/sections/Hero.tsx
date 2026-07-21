@@ -137,12 +137,22 @@ export function Hero() {
           <Magnetic strength={16}>
             <a
               href="#roasts"
-              className="inline-block border border-copper px-9 py-4 text-sm font-medium tracking-[0.06em] text-cream transition-colors duration-[250ms] hover:bg-copper hover:text-ink"
+              className="inline-block border border-copper px-9 py-4 text-sm font-medium tracking-[0.06em] text-cream transition-[background-color,color,transform] duration-200 ease-out hover:bg-copper hover:text-ink active:scale-[0.97]"
             >
               Shop Roasts
             </a>
           </Magnetic>
         </div>
+      </div>
+
+      {/* Scroll cue — invites the first scroll (hidden when too short to fit) */}
+      <div className="pointer-events-none absolute bottom-7 left-1/2 z-10 flex -translate-x-1/2 flex-col items-center gap-3 [@media(max-height:640px)]:hidden">
+        <span className="kicker" style={{ fontSize: "10px" }}>
+          Scroll
+        </span>
+        <span className="relative block h-10 w-px overflow-hidden bg-white/12">
+          <span className="scroll-cue-line absolute inset-x-0 top-0 block h-4 bg-gradient-to-b from-copper to-transparent" />
+        </span>
       </div>
     </section>
   );

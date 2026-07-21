@@ -80,7 +80,7 @@ export function FeaturedRoasts() {
                 <Magnetic strength={10}>
                   <a
                     href="#"
-                    className="inline-block border px-6 py-3 text-[13px] font-medium tracking-[0.06em] text-cream transition-colors duration-200 hover:border-copper hover:text-copper"
+                    className="inline-block border px-6 py-3 text-[13px] font-medium tracking-[0.06em] text-cream transition-[border-color,color,transform] duration-200 ease-out hover:border-copper hover:text-copper active:scale-[0.97]"
                     style={{ borderColor: "rgba(107,96,88,0.5)" }}
                   >
                     Add to Bag
