@@ -50,13 +50,13 @@ export function Nav() {
     <nav
       className={`nav-enter fixed inset-x-0 top-0 z-50 flex items-center justify-between border-b px-6 transition-[background-color,border-color,padding] duration-200 ease-out sm:px-10 lg:px-14 ${
         scrolled
-          ? "border-white/10 bg-ink/95 py-4"
+          ? "border-cream/10 bg-forest/90 py-4"
           : "border-transparent bg-transparent py-6 sm:py-[30px]"
       }`}
     >
       <a
         href="#top"
-        className="font-mono text-sm font-medium uppercase tracking-[0.28em] text-cream"
+        className="legible font-mono text-sm font-medium uppercase tracking-[0.28em] text-cream"
       >
         Groundwork
       </a>
@@ -65,10 +65,10 @@ export function Nav() {
           <a
             key={link.href}
             href={link.href}
-            className={`border-b pb-[3px] text-[13px] tracking-[0.04em] transition-colors duration-150 sm:text-sm ${
+            className={`legible border-b pb-[3px] text-[13px] tracking-[0.04em] transition-colors duration-150 sm:text-sm ${
               active === link.href
-                ? "border-copper text-copper"
-                : "border-transparent text-cream hover:border-copper hover:text-copper"
+                ? "border-gold text-gold"
+                : "border-transparent text-cream hover:border-gold hover:text-gold"
             }`}
           >
             {link.label}

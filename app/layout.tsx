@@ -29,29 +29,30 @@ export const metadata: Metadata = {
   metadataBase: new URL(
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://groundwork.example.com",
   ),
-  title: "Groundwork — The cup that earns the morning",
+  title: "Groundwork — Where the wild comes indoors",
   description:
-    "Single-origin roasts, pulled slow, served straight. No syrups. No shortcuts. A specialty coffee roaster in Ottawa.",
+    "A botanical studio in Ottawa. Rare plants raised under glass — grown slow, tended by hand, and sent home with everything they need to thrive.",
   applicationName: "Groundwork",
   keywords: [
-    "specialty coffee",
-    "single origin",
-    "coffee roaster",
+    "botanical studio",
+    "rare plants",
+    "greenhouse",
+    "houseplants",
     "Ottawa",
     "Groundwork",
   ],
   openGraph: {
     type: "website",
     siteName: "Groundwork",
-    title: "Groundwork — The cup that earns the morning",
+    title: "Groundwork — Where the wild comes indoors",
     description:
-      "Single-origin roasts, pulled slow, served straight. No syrups. No shortcuts.",
-    images: [{ url: "/hero-poster.jpg", width: 1600, height: 900 }],
+      "A botanical studio in Ottawa. Rare plants raised under glass, grown slow and tended by hand.",
+    images: [{ url: "/frames/poster.jpg", width: 1280, height: 720 }],
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0a0a0a",
+  themeColor: "#0b1210",
   colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
@@ -65,7 +66,7 @@ export default function RootLayout({
       lang="en"
       className={`${cormorant.variable} ${inter.variable} ${jetbrains.variable} antialiased`}
     >
-      <body className="bg-ink text-cream">
+      <body className="bg-forest text-cream">
         <SmoothScrollProvider>{children}</SmoothScrollProvider>
       </body>
     </html>

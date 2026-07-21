@@ -55,7 +55,7 @@ export function Loader() {
     <div
       ref={overlay}
       aria-hidden="true"
-      className="fixed inset-0 z-[90] flex flex-col items-center justify-center bg-ink"
+      className="fixed inset-0 z-[90] flex flex-col items-center justify-center bg-forest"
     >
       <span
         ref={mark}
@@ -65,7 +65,7 @@ export function Loader() {
       </span>
       <span
         ref={bar}
-        className="mt-6 h-px w-40 origin-left bg-gradient-to-r from-copper to-transparent"
+        className="mt-6 h-px w-40 origin-left bg-gradient-to-r from-gold to-transparent"
       />
     </div>
   );

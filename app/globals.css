@@ -1,17 +1,20 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------ */
-/*  Groundwork — design tokens (from the source brand guide)           */
+/*  Groundwork — Botanical rebrand · dark verdant palette              */
+/*  Pulled from the greenhouse frames: forest shadow, fern green,      */
+/*  sunlit gold, cream light, a rare lavender bloom.                   */
 /* ------------------------------------------------------------------ */
 @theme {
-  /* Palette */
-  --color-ink: #0a0a0a; /* near-black background */
-  --color-espresso: #1c1008; /* dark coffee section bg */
-  --color-cream: #e8e0d5; /* primary text */
-  --color-taupe: #6b6058; /* muted secondary text */
-  --color-copper: #c47b2b; /* accent */
+  --color-forest: #0b1210; /* base — near-black green */
+  --color-canopy: #131e18; /* raised surface (cards, drawer) */
+  --color-moss: #1e2c24; /* hover surface */
+  --color-cream: #ece7da; /* primary text / light */
+  --color-sage: #97a291; /* muted secondary text */
+  --color-gold: #d3b15f; /* primary accent — the sunlight */
+  --color-fern: #8fb07a; /* green highlight */
+  --color-lavender: #b79fd0; /* rare accent — the flowers */
 
-  /* Type families (wired to next/font variables in layout.tsx) */
   --font-serif: var(--font-cormorant);
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains);
@@ -23,13 +26,12 @@
   }
 
   html {
-    background: var(--color-ink);
+    background: var(--color-forest);
     color: var(--color-cream);
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
-  /* Lenis owns scrolling */
   html.lenis,
   html.lenis body {
     height: auto;
@@ -45,7 +47,7 @@
   }
 
   body {
-    background: var(--color-ink);
+    background: var(--color-forest);
     color: var(--color-cream);
     font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
     overflow-x: hidden;
@@ -68,13 +70,24 @@
   }
 
   ::selection {
-    background: var(--color-copper);
-    color: var(--color-ink);
+    background: var(--color-gold);
+    color: var(--color-forest);
   }
 
   :focus-visible {
-    outline: 1px solid var(--color-copper);
+    outline: 1px solid var(--color-gold);
     outline-offset: 3px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--color-sage) 45%, transparent);
+    border-radius: 999px;
   }
 }
 
@@ -82,22 +95,22 @@
 /*  Utilities                                                          */
 /* ------------------------------------------------------------------ */
 
-/* Mono kicker/label — recurring across every section header */
+/* Mono kicker/label */
 @utility kicker {
   font-family: var(--font-mono), monospace;
   text-transform: uppercase;
   font-size: 11px;
   letter-spacing: 0.28em;
-  color: var(--color-taupe);
+  color: var(--color-sage);
 }
 
-/* Oversized editorial index numeral (01–05) — luxury watermark */
+/* Oversized editorial index numeral */
 @utility index-numeral {
   font-family: var(--font-serif), serif;
   font-weight: 300;
   line-height: 1;
-  color: color-mix(in srgb, var(--color-cream) 100%, transparent);
-  opacity: 0.05;
+  color: var(--color-cream);
+  opacity: 0.06;
   user-select: none;
   pointer-events: none;
 }
@@ -111,9 +124,42 @@
   color: var(--color-cream);
 }
 
+/* Legibility shadow for text that floats over the greenhouse imagery.
+   Free (no layout), and pairs with the global veil so cream type always
+   reads over bright foliage. */
+@utility legible {
+  text-shadow:
+    0 2px 28px rgba(6, 12, 9, 0.7),
+    0 1px 4px rgba(6, 12, 9, 0.6);
+}
+
+/* Frosted content card that floats over the greenhouse — a whisper of blur so
+   text stays legible over busy foliage. Used sparingly (few, static panels). */
+@utility panel {
+  background: color-mix(in srgb, var(--color-canopy) 82%, transparent);
+  border: 1px solid rgba(236, 231, 218, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Solid card (roasts/collections grid) — opaque, no filter cost */
+@utility panel-solid {
+  background: var(--color-canopy);
+}
+
+/* Local text scrim — soft radial darkening behind a heading block so cream
+   type reads over the bright greenhouse without a hard box. */
+@utility text-scrim {
+  background: radial-gradient(
+    120% 100% at 0% 30%,
+    rgba(8, 15, 11, 0.78) 0%,
+    rgba(8, 15, 11, 0.45) 45%,
+    rgba(8, 15, 11, 0) 80%
+  );
+}
+
 /* ------------------------------------------------------------------ */
-/*  Word-mask reveal — each word rides up out of an overflow-clip line */
-/*  (transform-only, the signature editorial heading reveal)           */
+/*  Word-mask reveal                                                   */
 /* ------------------------------------------------------------------ */
 .mask-line {
   overflow: hidden;
@@ -122,71 +168,11 @@
 }
 .mask-word {
   display: inline-block;
-  /* No permanent will-change — GSAP promotes the layer only during the tween,
-     so we don't leave dozens of promoted word layers alive after the reveal. */
 }
 
 /* ------------------------------------------------------------------ */
-/*  Custom cursor (fine-pointer devices only; native cursor hidden     */
-/*  while active). Transform-driven via GSAP quickTo — very cheap.     */
+/*  Marquee ticker                                                     */
 /* ------------------------------------------------------------------ */
-.cursor-active,
-.cursor-active a,
-.cursor-active button {
-  cursor: none;
-}
-.gw-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  pointer-events: none;
-  border-radius: 9999px;
-  will-change: transform;
-  /* No mix-blend-mode — it forces a full-viewport re-blend on every cursor
-     move (a top scroll-jank cause). Solid cream reads well on the dark UI. */
-  display: none; /* shown only once the cursor activates (fine pointers) */
-}
-.cursor-active .gw-cursor {
-  display: block;
-}
-.gw-cursor-dot {
-  width: 6px;
-  height: 6px;
-  margin: -3px 0 0 -3px;
-  background: var(--color-cream);
-}
-.gw-cursor-ring {
-  width: 42px;
-  height: 42px;
-  margin: -21px 0 0 -21px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  transition:
-    width 0.3s ease,
-    height 0.3s ease,
-    margin 0.3s ease,
-    border-color 0.3s ease;
-}
-.gw-cursor-ring.is-hover {
-  width: 64px;
-  height: 64px;
-  margin: -32px 0 0 -32px;
-  border-color: var(--color-copper);
-}
-
-/* ------------------------------------------------------------------ */
-/*  Filmic grain — fixed, opacity-only (no blend mode → cheap on scroll) */
-/* ------------------------------------------------------------------ */
-.grain {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  pointer-events: none;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-/* Animated marquee for the origin ticker */
 @keyframes gw-ticker {
   from {
     transform: translateX(0);
@@ -196,27 +182,34 @@
   }
 }
 @utility animate-ticker {
-  animation: gw-ticker 38s linear infinite;
+  animation: gw-ticker 44s linear infinite;
   will-change: transform;
 }
 
-/* Hero video: no animation. Continuously scaling a full-screen video layer
-   forces a re-raster every frame and makes the video itself stutter — the
-   footage already provides the motion. Just render it flat and let it play. */
-.hero-video {
-  backface-visibility: hidden;
-}
-
-/* Card hover — snappy background warm-up (<250ms per motion blueprint; no
-   transform, so it never fights the GSAP entrance tween on the same element) */
+/* Card hover — snappy background warm-up (<250ms, no transform) */
 @utility card-lift {
   transition: background-color 0.2s ease;
 }
 .card-lift:hover {
-  background-color: #23150b;
+  background-color: var(--color-moss);
 }
 
-/* Hero scroll cue — a copper tick that falls and fades, inviting scroll */
+/* Nav entrance */
+@keyframes nav-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@utility nav-enter {
+  animation: nav-enter 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Hero scroll cue */
 @keyframes scroll-cue {
   0% {
     transform: translateY(-100%);
@@ -234,28 +227,56 @@
   animation: scroll-cue 2s cubic-bezier(0.7, 0, 0.2, 1) infinite;
 }
 
-/* Nav entrance — one-shot fade-down on load */
-@keyframes nav-enter {
-  from {
-    opacity: 0;
-    transform: translateY(-12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* ------------------------------------------------------------------ */
+/*  Custom cursor                                                      */
+/* ------------------------------------------------------------------ */
+.cursor-active,
+.cursor-active a,
+.cursor-active button {
+  cursor: none;
 }
-@utility nav-enter {
-  animation: nav-enter 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+.gw-cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  pointer-events: none;
+  border-radius: 9999px;
+  will-change: transform;
+  display: none;
+}
+.cursor-active .gw-cursor {
+  display: block;
+}
+.gw-cursor-dot {
+  width: 6px;
+  height: 6px;
+  margin: -3px 0 0 -3px;
+  background: var(--color-cream);
+}
+.gw-cursor-ring {
+  width: 42px;
+  height: 42px;
+  margin: -21px 0 0 -21px;
+  border: 1px solid rgba(236, 231, 218, 0.6);
+  transition:
+    width 0.3s ease,
+    height 0.3s ease,
+    margin 0.3s ease,
+    border-color 0.3s ease;
+}
+.gw-cursor-ring.is-hover {
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+  border-color: var(--color-gold);
 }
 
 /* ------------------------------------------------------------------ */
-/*  Reduced motion                                                     */
-/*  The hero video and core motion are intentionally kept active       */
-/*  (product decision). Only the always-on marquee is calmed.          */
+/*  Reduced motion — keep core motion (product decision); calm loops   */
 /* ------------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
   .animate-ticker {
-    animation-duration: 70s;
+    animation-duration: 80s;
   }
 }

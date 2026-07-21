@@ -32,7 +32,7 @@ export function ScrollProgress() {
     <div
       ref={bar}
       aria-hidden="true"
-      className="fixed left-0 top-0 z-[70] h-0.5 w-full origin-left scale-x-0 bg-copper"
+      className="fixed left-0 top-0 z-[70] h-0.5 w-full origin-left scale-x-0 bg-gold"
     />
   );
 }

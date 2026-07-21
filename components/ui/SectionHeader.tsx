@@ -41,19 +41,19 @@ export function SectionHeader({
   return (
     <div className={className}>
       <div className="flex items-baseline gap-5">
-        <span className="kicker text-copper">{index}</span>
-        <span className="kicker">{eyebrow}</span>
+        <span className="kicker legible text-gold">{index}</span>
+        <span className="kicker legible">{eyebrow}</span>
         <span
           ref={line}
           className="h-px flex-1"
-          style={{ backgroundColor: "rgba(107,96,88,0.28)" }}
+          style={{ backgroundColor: "rgba(151,162,145,0.32)" }}
         />
       </div>
 
       {title && (
         <MaskReveal
           as="h2"
-          className="section-title mt-8 text-[clamp(40px,6.5vw,92px)]"
+          className="section-title legible mt-8 text-[clamp(40px,6.5vw,92px)]"
         >
           {title}
         </MaskReveal>
