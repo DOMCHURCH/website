@@ -11,15 +11,15 @@ import { ScrollTrigger } from "@/lib/gsap";
  * overlaid on top. A dark-verdant veil sits above it for text legibility.
  *
  * Performance / mobile:
- *  - Device-tier sets: 126 frames @1280 (desktop) vs 63 @720 (mobile) WebP.
+ *  - Device-tier sets: 121 frames @2560 (desktop) vs 61 @1280 (mobile) WebP.
  *  - One canvas draw per scroll rAF (deduped by frame index) — cheap.
  *  - Frames preload as <img>; draw skips any not-yet-decoded frame and keeps
  *    the previous one, so scrubbing never blocks or flashes.
  *  - DPR capped at 2; redraws on resize.
  */
 
-const DESKTOP = { dir: "/frames/d", count: 126 };
-const MOBILE = { dir: "/frames/m", count: 63 };
+const DESKTOP = { dir: "/frames/d", count: 121 };
+const MOBILE = { dir: "/frames/m", count: 61 };
 const pad = (n: number) => String(n).padStart(3, "0");
 
 export function FrameSequence() {
