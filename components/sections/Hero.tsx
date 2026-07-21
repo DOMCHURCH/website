@@ -80,7 +80,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative flex min-h-screen w-full items-center overflow-hidden [contain:paint]"
+      className="relative flex min-h-[100svh] w-full items-center overflow-hidden py-24 [contain:paint] [@media(max-height:640px)]:py-16"
     >
       <video
         ref={video}
@@ -104,11 +104,11 @@ export function Hero() {
 
       <div
         ref={copy}
-        className="relative z-10 w-full max-w-[92%] px-6 sm:max-w-[72%] sm:px-10 lg:max-w-[52%] lg:px-14"
+        className="relative z-10 w-full max-w-[92%] px-6 sm:max-w-[72%] sm:px-10 lg:max-w-[620px] lg:px-14"
       >
         <p
           data-fade
-          className="kicker mb-8 text-copper"
+          className="kicker mb-8 text-copper [@media(max-height:640px)]:mb-4"
           style={{ fontSize: "12px" }}
         >
           Single Origin · Ottawa · Est. 2024
@@ -120,20 +120,20 @@ export function Hero() {
           delay={REVEAL_AT}
           stagger={0.09}
           duration={1.1}
-          className="font-serif font-light leading-[0.96] tracking-[0.005em] text-cream [font-size:clamp(52px,7vw,116px)]"
+          className="font-serif font-light leading-[0.96] tracking-[0.005em] text-cream [font-size:clamp(38px,min(7vw,11vh),112px)]"
         >
           The cup that earns the morning.
         </MaskReveal>
 
         <p
           data-fade
-          className="mt-9 max-w-[42ch] text-[16px] font-light leading-[1.7] tracking-[0.01em] text-taupe"
+          className="mt-9 max-w-[42ch] text-[16px] font-light leading-[1.7] tracking-[0.01em] text-taupe [@media(max-height:640px)]:mt-4 [@media(max-height:520px)]:hidden"
         >
           Single-origin roasts, pulled slow, served straight. No syrups. No
           shortcuts.
         </p>
 
-        <div data-fade className="mt-11">
+        <div data-fade className="mt-11 [@media(max-height:640px)]:mt-6">
           <Magnetic strength={16}>
             <a
               href="#roasts"

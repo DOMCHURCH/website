@@ -12,7 +12,7 @@ export function Footer() {
         <MaskReveal
           as="div"
           stagger={0.02}
-          className="section-title text-[clamp(64px,18vw,280px)] leading-[0.82] text-cream"
+          className="section-title text-[clamp(44px,15vw,200px)] leading-[0.82] text-cream"
         >
           Groundwork
         </MaskReveal>
