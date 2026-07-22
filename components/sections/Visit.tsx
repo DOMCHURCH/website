@@ -25,17 +25,17 @@ export function Visit() {
               delay={i * 0.09}
               className="glass glass-lift group relative rounded-2xl px-9 py-12 sm:px-11 sm:py-14"
             >
-              <h3 className="font-serif text-[56px] font-light leading-none text-cream">
+              <h3 className="font-serif text-[56px] font-light leading-none text-onglass">
                 {loc.name}
               </h3>
-              <div className="mt-7 font-mono text-xs leading-[2] tracking-[0.1em] text-sage">
+              <div className="mt-7 font-mono text-xs leading-[2] tracking-[0.1em] text-onglass/55">
                 {loc.street}
                 <br />
                 {loc.city}
                 <br />
-                <span className="text-cream">{loc.weekday}</span>
+                <span className="text-onglass">{loc.weekday}</span>
                 <br />
-                <span className="text-cream">{loc.weekend}</span>
+                <span className="text-onglass">{loc.weekend}</span>
               </div>
             </Reveal>
           ))}

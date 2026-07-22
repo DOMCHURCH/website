@@ -63,14 +63,14 @@ export function Hero() {
           delay={REVEAL_AT}
           stagger={0.09}
           duration={1.1}
-          className="legible font-serif font-light leading-[0.96] tracking-[0.005em] text-cream [font-size:clamp(38px,min(7vw,11vh),112px)]"
+          className="legible font-serif font-light leading-[0.96] tracking-[0.005em] text-onglass [font-size:clamp(38px,min(7vw,11vh),112px)]"
         >
           Where the wild comes indoors.
         </MaskReveal>
 
         <p
           data-fade
-          className="legible mt-9 max-w-[44ch] text-[16px] font-light leading-[1.7] tracking-[0.01em] text-cream/80 [@media(max-height:640px)]:mt-4 [@media(max-height:520px)]:hidden"
+          className="legible mt-9 max-w-[44ch] text-[16px] font-light leading-[1.7] tracking-[0.01em] text-onglass/80 [@media(max-height:640px)]:mt-4 [@media(max-height:520px)]:hidden"
         >
           Rare plants raised under glass — grown slow, tended by hand, and sent
           home with everything they need to thrive.
@@ -80,7 +80,7 @@ export function Hero() {
           <Magnetic strength={16}>
             <a
               href="#collections"
-              className="inline-block border border-gold px-9 py-4 text-sm font-medium tracking-[0.06em] text-cream transition-[background-color,color,transform] duration-200 ease-out hover:bg-gold hover:text-forest active:scale-[0.97]"
+              className="inline-block border border-gold px-9 py-4 text-sm font-medium tracking-[0.06em] text-onglass transition-[background-color,color,transform] duration-200 ease-out hover:bg-gold hover:text-forest active:scale-[0.97]"
             >
               See the Collections
             </a>

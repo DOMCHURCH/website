@@ -32,7 +32,7 @@ export function Glasshouse() {
                   <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
                     {step.label}
                   </div>
-                  <p className="max-w-md text-[17px] font-light leading-[1.75] text-cream/85">
+                  <p className="max-w-md text-[17px] font-light leading-[1.75] text-onglass/85">
                     {step.body}
                   </p>
                 </Reveal>

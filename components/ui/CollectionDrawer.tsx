@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import type { Collection } from "@/lib/data";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { useSmoothScroll } from "@/components/providers/SmoothScrollProvider";
+import { prefersReducedMotion } from "@/lib/motion";
 
 function Label({ children }: { children: string }) {
   return (
@@ -14,10 +15,12 @@ function Label({ children }: { children: string }) {
 }
 
 /**
- * Collection detail drawer — slides in from the right with the plant story:
- * care attributes, how it grows, and what's in the collection. Transform/opacity
- * only; background scroll frozen via Lenis stop() (adds lenis-stopped so keyboard
- * scroll is locked too). Closes on Esc, backdrop, or ×; focus trapped + restored.
+ * Collection detail — a centred modal popup (formerly a right-side drawer) that
+ * scales + fades up from the middle of the page. Shows the plant's care specs,
+ * how it grows, and what's in the collection. Dark glass, light text.
+ * Transform/opacity only; background scroll frozen via Lenis stop() (so the
+ * backdrop blur is cheap). Closes on Esc, backdrop, or ×; focus trapped +
+ * restored; honours reduced motion.
  */
 export function CollectionDrawer({
   collection,
@@ -71,26 +74,38 @@ export function CollectionDrawer({
     };
   }, [open, stop, start, onClose]);
 
+  const reduce = prefersReducedMotion();
+
   return (
     <div
-      className={`fixed inset-0 z-[80] ${open ? "pointer-events-auto" : "pointer-events-none"}`}
+      className={`fixed inset-0 z-[80] flex items-center justify-center p-5 sm:p-8 ${
+        open ? "pointer-events-auto" : "pointer-events-none"
+      }`}
       aria-hidden={!open}
     >
+      {/* Backdrop — dims + softly blurs the page behind (scroll is frozen, so
+          the blur is cheap). Click to dismiss. */}
       <div
         onClick={onClose}
-        className={`absolute inset-0 bg-[rgba(26,42,31,0.42)] transition-opacity duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`absolute inset-0 bg-[rgba(16,22,18,0.55)] backdrop-blur-[2px] transition-opacity duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           open ? "opacity-100" : "opacity-0"
         }`}
       />
 
-      <aside
+      {/* Centred panel — scales + fades up from the middle of the page */}
+      <div
         ref={panel}
         role="dialog"
         aria-modal="true"
-        aria-labelledby="collection-drawer-title"
+        aria-labelledby="collection-modal-title"
         data-lenis-prevent
-        className="glass-strong absolute right-0 top-0 h-full w-[min(92vw,540px)] overflow-y-auto shadow-[0_0_80px_-20px_rgba(0,0,0,0.55)] transition-transform duration-[340ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
-        style={{ transform: open ? "translateX(0)" : "translateX(100%)" }}
+        className={`glass-strong relative z-[1] max-h-[86vh] w-[min(94vw,560px)] overflow-y-auto rounded-2xl shadow-[0_30px_90px_-30px_rgba(0,0,0,0.7)] transition-[opacity,transform] ${
+          reduce ? "duration-0" : "duration-300"
+        } ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          open
+            ? "translate-y-0 scale-100 opacity-100"
+            : "translate-y-2 scale-[0.94] opacity-0"
+        }`}
       >
         {collection && (
           <div className="flex min-h-full flex-col px-8 py-8 sm:px-12 sm:py-12">
@@ -103,39 +118,39 @@ export function CollectionDrawer({
                 type="button"
                 onClick={onClose}
                 aria-label="Close collection details"
-                className="-mr-2 -mt-2 flex h-10 w-10 items-center justify-center text-2xl leading-none text-sage transition-colors hover:text-cream"
+                className="-mr-2 -mt-2 flex h-10 w-10 items-center justify-center text-2xl leading-none text-onglass/60 transition-colors hover:text-onglass"
               >
                 ×
               </button>
             </div>
 
             <h2
-              id="collection-drawer-title"
-              className="mt-6 font-serif text-[clamp(40px,7vw,60px)] font-light leading-[0.98] text-cream"
+              id="collection-modal-title"
+              className="mt-6 font-serif text-[clamp(40px,7vw,60px)] font-light leading-[0.98] text-onglass"
             >
               {collection.name}
             </h2>
-            <p className="mt-3 font-mono text-xs uppercase tracking-[0.14em] text-sage">
+            <p className="mt-3 font-mono text-xs uppercase tracking-[0.14em] text-onglass/55">
               {collection.family}
             </p>
 
-            <p className="mt-8 max-w-prose text-[15px] font-light leading-[1.75] text-cream/80">
+            <p className="mt-8 max-w-prose text-[15px] font-light leading-[1.75] text-onglass/80">
               {collection.description}
             </p>
 
             {/* Care */}
-            <div className="mt-12 border-t border-cream/10 pt-8">
+            <div className="mt-12 border-t border-white/12 pt-8">
               <Label>Care</Label>
               <dl>
                 {collection.care.map((c) => (
                   <div
                     key={c.label}
-                    className="flex items-baseline justify-between gap-6 border-b border-cream/5 py-3 last:border-b-0"
+                    className="flex items-baseline justify-between gap-6 border-b border-white/8 py-3 last:border-b-0"
                   >
-                    <dt className="font-mono text-[11px] uppercase tracking-[0.16em] text-sage">
+                    <dt className="font-mono text-[11px] uppercase tracking-[0.16em] text-onglass/55">
                       {c.label}
                     </dt>
-                    <dd className="text-right font-mono text-[13px] text-cream">
+                    <dd className="text-right font-mono text-[13px] text-onglass">
                       {c.value}
                     </dd>
                   </div>
@@ -144,21 +159,21 @@ export function CollectionDrawer({
             </div>
 
             {/* How it grows */}
-            <div className="mt-12 border-t border-cream/10 pt-8">
+            <div className="mt-12 border-t border-white/12 pt-8">
               <Label>How it grows</Label>
-              <p className="text-[15px] font-light leading-[1.75] text-cream/80">
+              <p className="text-[15px] font-light leading-[1.75] text-onglass/80">
                 {collection.growing}
               </p>
             </div>
 
             {/* In this collection */}
-            <div className="mt-12 border-t border-cream/10 pt-8">
+            <div className="mt-12 border-t border-white/12 pt-8">
               <Label>In this collection</Label>
               <ul>
                 {collection.plants.map((p) => (
                   <li
                     key={p}
-                    className="flex items-center gap-3 border-b border-cream/5 py-3 font-serif text-lg font-light text-cream last:border-b-0"
+                    className="flex items-center gap-3 border-b border-white/8 py-3 font-serif text-lg font-light text-onglass last:border-b-0"
                   >
                     <span className="h-1 w-1 rounded-full bg-fern" />
                     {p}
@@ -168,14 +183,14 @@ export function CollectionDrawer({
             </div>
 
             {/* CTA */}
-            <div className="mt-auto flex items-center justify-between gap-6 border-t border-cream/10 pt-8">
-              <span className="font-mono text-lg text-cream">
+            <div className="mt-auto flex items-center justify-between gap-6 border-t border-white/12 pt-8">
+              <span className="font-mono text-lg text-onglass">
                 {collection.price}
               </span>
               <Magnetic strength={10}>
                 <a
                   href="#"
-                  className="inline-block border border-gold px-8 py-4 text-[13px] font-medium tracking-[0.06em] text-cream transition-[background-color,color,transform] duration-200 ease-out hover:bg-gold hover:text-forest active:scale-[0.97]"
+                  className="inline-block border border-gold px-8 py-4 text-[13px] font-medium tracking-[0.06em] text-onglass transition-[background-color,color,transform] duration-200 ease-out hover:bg-gold hover:text-forest active:scale-[0.97]"
                 >
                   Enquire
                 </a>
@@ -183,7 +198,7 @@ export function CollectionDrawer({
             </div>
           </div>
         )}
-      </aside>
+      </div>
     </div>
   );
 }

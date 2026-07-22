@@ -47,19 +47,19 @@ export function Collections() {
                 <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
                   {c.tag}
                 </div>
-                <h3 className="mt-6 font-serif text-[52px] font-light leading-[0.98] text-cream">
+                <h3 className="mt-6 font-serif text-[52px] font-light leading-[0.98] text-onglass">
                   {c.name}
                 </h3>
-                <div className="mt-3 font-mono text-xs uppercase tracking-[0.14em] text-sage">
+                <div className="mt-3 font-mono text-xs uppercase tracking-[0.14em] text-onglass/55">
                   {c.family}
                 </div>
-                <div className="mt-8 max-w-[26ch] text-sm font-light leading-relaxed text-cream/70">
+                <div className="mt-8 max-w-[26ch] text-sm font-light leading-relaxed text-onglass/75">
                   {c.summary}
                 </div>
 
                 <div className="flex-1" />
 
-                <span className="mt-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-sage transition-colors group-hover:text-gold">
+                <span className="mt-8 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-onglass/60 transition-colors group-hover:text-gold">
                   View collection
                   <span className="transition-transform duration-300 group-hover:translate-x-1">
                     →
@@ -68,12 +68,12 @@ export function Collections() {
               </button>
 
               <div className="mt-9 flex items-center justify-between">
-                <span className="font-mono text-sm text-cream">{c.price}</span>
+                <span className="font-mono text-sm text-onglass">{c.price}</span>
                 <Magnetic strength={10}>
                   <a
                     href="#"
-                    className="inline-block border px-6 py-3 text-[13px] font-medium tracking-[0.06em] text-cream transition-[border-color,color,transform] duration-200 ease-out hover:border-gold hover:text-gold active:scale-[0.97]"
-                    style={{ borderColor: "rgba(93,107,95,0.42)" }}
+                    className="inline-block border px-6 py-3 text-[13px] font-medium tracking-[0.06em] text-onglass transition-[border-color,color,transform] duration-200 ease-out hover:border-gold hover:text-gold active:scale-[0.97]"
+                    style={{ borderColor: "rgba(255,255,255,0.28)" }}
                   >
                     Enquire
                   </a>
