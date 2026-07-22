@@ -5,9 +5,10 @@ import { COLLECTIONS, type Collection } from "@/lib/data";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Reveal } from "@/components/ui/Reveal";
 import { Magnetic } from "@/components/ui/Magnetic";
+import { IndexNumeral } from "@/components/ui/IndexNumeral";
 import { CollectionDrawer } from "@/components/ui/CollectionDrawer";
 
-const HAIRLINE = "rgba(151,162,145,0.24)";
+const HAIRLINE = "rgba(93,107,95,0.28)";
 
 export function Collections() {
   const [active, setActive] = useState<Collection | null>(null);
@@ -20,9 +21,9 @@ export function Collections() {
 
   return (
     <section id="collections" className="relative w-full overflow-hidden py-32 sm:py-44">
-      <span className="index-numeral absolute -right-4 top-16 text-[30vw] sm:text-[22vw]">
+      <IndexNumeral className="absolute -right-4 top-16 text-[30vw] sm:text-[22vw]">
         01
-      </span>
+      </IndexNumeral>
 
       <div className="relative mx-auto max-w-[1280px] px-6 sm:px-14">
         <SectionHeader
@@ -40,8 +41,13 @@ export function Collections() {
             <Reveal
               key={c.slug}
               delay={i * 0.09}
-              className="card-lift flex min-h-[440px] flex-col bg-canopy px-11 pb-11 pt-12"
+              className="card-lift group relative flex min-h-[440px] flex-col bg-canopy px-11 pb-11 pt-12"
             >
+              {/* Gold hairline draws across the top edge on hover */}
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-gold transition-transform duration-200 ease-out group-hover:scale-x-100"
+              />
               <button
                 type="button"
                 onClick={() => openCollection(c)}
@@ -77,7 +83,7 @@ export function Collections() {
                   <a
                     href="#"
                     className="inline-block border px-6 py-3 text-[13px] font-medium tracking-[0.06em] text-cream transition-[border-color,color,transform] duration-200 ease-out hover:border-gold hover:text-gold active:scale-[0.97]"
-                    style={{ borderColor: "rgba(151,162,145,0.5)" }}
+                    style={{ borderColor: "rgba(93,107,95,0.42)" }}
                   >
                     Enquire
                   </a>

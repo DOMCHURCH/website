@@ -27,14 +27,12 @@ export const useSmoothScroll = () => useContext(SmoothScrollContext);
 /**
  * Lenis smooth scroll wired into the GSAP ticker (duration 1.15, expo-out
  * easing — from the source design). Exposes stop()/start() so overlays (the
- * roast drawer) can freeze the background scroll.
+ * collection drawer) can freeze the background scroll.
  */
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
 
   useIsomorphicLayoutEffect(() => {
-    document.documentElement.classList.add("motion-ready");
-
     const refresh = () => ScrollTrigger.refresh();
     window.addEventListener("load", refresh);
     if (document.fonts) document.fonts.ready.then(refresh).catch(() => {});

@@ -1,6 +1,6 @@
 # Groundwork
 
-A cinematic single-page site for **Groundwork**, a specialty-coffee roaster in Ottawa — _"The cup that earns the morning."_
+A cinematic single-page site for **Groundwork**, a botanical studio in Ottawa — _"Where the wild comes indoors."_
 
 Built from a Claude Design brand-guide export, implemented as a production Next.js app.
 
@@ -13,11 +13,11 @@ Built from a Claude Design brand-guide export, implemented as a production Next.
 
 ## Sections
 
-Nav · video Hero · origin ticker · Featured Roasts · The Process · Café Locations · Footer.
+Nav · Hero (over a scroll-scrubbed greenhouse frame sequence) · botanical ticker · Collections · The Glasshouse · Visit · Footer.
 
 ## Design language
 
-Deep ink `#0A0A0A`, espresso `#1C1008`, cream type `#E8E0D5`, muted taupe `#6B6058`, copper accent `#C47B2B`.
+Forest shadow `#0B1210`, canopy surface `#131E18`, cream type `#ECE7DA`, muted sage `#97A291`, sunlit gold accent `#D3B15F`, with fern and a rare lavender bloom.
 
 ## Develop
 
@@ -37,5 +37,5 @@ npm run start
 ## Notes
 
 - Fully responsive (mobile → desktop) and static-rendered.
-- Respects `prefers-reduced-motion` (marquee + reveals disabled, hero video paused, poster shown).
+- Respects `prefers-reduced-motion`: reveals, hero/numeral parallax and cursor-reactive drift are disabled, the intro loader is skipped, and the marquee is calmed — content renders static and fully visible.
 - Set `NEXT_PUBLIC_SITE_URL` for absolute Open Graph / share URLs.

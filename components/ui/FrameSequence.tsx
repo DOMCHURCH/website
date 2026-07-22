@@ -11,7 +11,7 @@ import { ScrollTrigger } from "@/lib/gsap";
  * overlaid on top. A dark-verdant veil sits above it for text legibility.
  *
  * Performance / mobile:
- *  - Device-tier sets: 121 frames @2560 (desktop) vs 61 @1280 (mobile) WebP.
+ *  - Device-tier sets: 121 frames @1920 (desktop) vs 61 @1280 (mobile) WebP.
  *  - One canvas draw per scroll rAF (deduped by frame index) — cheap.
  *  - Frames preload as <img>; draw skips any not-yet-decoded frame and keeps
  *    the previous one, so scrubbing never blocks or flashes.
@@ -111,16 +111,16 @@ export function FrameSequence() {
         ref={canvas}
         aria-hidden="true"
         className="fixed inset-0 z-0 h-full w-full"
-        style={{ backgroundColor: "#0c1310" }}
+        style={{ backgroundColor: "#e8eee7" }}
       />
-      {/* Legibility veil — darker top/bottom for nav + footer, greenhouse shows
-          through the middle. Fixed, opacity-only → cheap. */}
+      {/* Legibility veil — a paper wash top/bottom for nav + footer, the hero
+          shows through the middle. Fixed, opacity-only → cheap. */}
       <div
         aria-hidden="true"
         className="pointer-events-none fixed inset-0 z-0"
         style={{
           background:
-            "linear-gradient(180deg, rgba(8,15,11,0.72) 0%, rgba(8,15,11,0.38) 26%, rgba(8,15,11,0.42) 62%, rgba(8,15,11,0.82) 100%)",
+            "linear-gradient(180deg, rgba(232,238,231,0.80) 0%, rgba(232,238,231,0.30) 24%, rgba(232,238,231,0.32) 60%, rgba(232,238,231,0.88) 100%)",
         }}
       />
     </>

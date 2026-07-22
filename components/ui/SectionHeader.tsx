@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import { MaskReveal } from "@/components/ui/MaskReveal";
+import { prefersReducedMotion } from "@/lib/motion";
 
 /**
  * Editorial section header — an index numeral + mono eyebrow beside a hairline
@@ -25,7 +26,7 @@ export function SectionHeader({
 
   useIsomorphicLayoutEffect(() => {
     const el = line.current;
-    if (!el) return;
+    if (!el || prefersReducedMotion()) return;
     const ctx = gsap.context(() => {
       gsap.from(el, {
         scaleX: 0,
@@ -46,7 +47,7 @@ export function SectionHeader({
         <span
           ref={line}
           className="h-px flex-1"
-          style={{ backgroundColor: "rgba(151,162,145,0.32)" }}
+          style={{ backgroundColor: "rgba(93,107,95,0.34)" }}
         />
       </div>
 

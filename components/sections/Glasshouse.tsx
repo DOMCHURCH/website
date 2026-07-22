@@ -2,13 +2,14 @@ import { GLASSHOUSE } from "@/lib/data";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Reveal } from "@/components/ui/Reveal";
 import { MaskReveal } from "@/components/ui/MaskReveal";
+import { IndexNumeral } from "@/components/ui/IndexNumeral";
 
 export function Glasshouse() {
   return (
     <section id="glasshouse" className="relative w-full overflow-hidden py-32 sm:py-48">
-      <span className="index-numeral absolute -left-4 top-16 text-[30vw] sm:text-[22vw]">
+      <IndexNumeral className="absolute -left-4 top-16 text-[30vw] sm:text-[22vw]">
         02
-      </span>
+      </IndexNumeral>
 
       <div className="relative mx-auto max-w-[1280px] px-6 sm:px-14">
         <SectionHeader index="02" eyebrow="The Glasshouse" className="mb-24 sm:mb-32" />
@@ -23,13 +24,14 @@ export function Glasshouse() {
             “We grow to the plant, not the shelf.”
           </MaskReveal>
 
-          {/* Body steps sit on a soft scrim so they stay legible over foliage */}
+          {/* Body steps sit on a soft paper scrim so dark type stays legible
+              over the bright imagery */}
           <div className="relative">
             <div
               className="pointer-events-none absolute -inset-x-6 -inset-y-8 rounded-sm"
               style={{
                 background:
-                  "linear-gradient(180deg, rgba(8,15,11,0.55), rgba(8,15,11,0.6))",
+                  "linear-gradient(180deg, rgba(232,238,231,0.74), rgba(232,238,231,0.80))",
               }}
               aria-hidden="true"
             />

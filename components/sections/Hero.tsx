@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
+import { prefersReducedMotion } from "@/lib/motion";
 import { MaskReveal } from "@/components/ui/MaskReveal";
 import { Magnetic } from "@/components/ui/Magnetic";
 
@@ -16,11 +17,13 @@ const REVEAL_AT = 1.3;
  * word-by-word; eyebrow, sub and CTA follow.
  */
 export function Hero() {
+  const section = useRef<HTMLElement>(null);
   const copy = useRef<HTMLDivElement>(null);
 
   useIsomorphicLayoutEffect(() => {
-    if (!copy.current) return;
+    if (!copy.current || !section.current || prefersReducedMotion()) return;
     const ctx = gsap.context(() => {
+      // Entrance — eyebrow, sub and CTA rise as the intro curtain lifts.
       gsap.from(copy.current!.querySelectorAll("[data-fade]"), {
         y: 26,
         opacity: 0,
@@ -29,21 +32,36 @@ export function Hero() {
         stagger: 0.12,
         delay: REVEAL_AT + 0.55,
       });
-    }, copy);
+      // Scroll parallax — the copy drifts up and dims as the hero exits, so it
+      // recedes behind the incoming section. Transform/opacity only.
+      gsap.to(copy.current, {
+        yPercent: -14,
+        opacity: 0.5,
+        ease: "none",
+        scrollTrigger: {
+          trigger: section.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: 0.5,
+        },
+      });
+    }, section);
     return () => ctx.revert();
   }, []);
 
   return (
     <section
+      ref={section}
       id="top"
       className="relative flex min-h-[100svh] w-full items-center overflow-hidden py-24 [@media(max-height:640px)]:py-16"
     >
-      {/* Local scrim behind the copy for extra legibility over foliage */}
+      {/* Local paper scrim behind the copy so dark type reads over the bright
+          sky/foliage of the hero */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "linear-gradient(90deg, rgba(8,15,11,0.78) 0%, rgba(8,15,11,0.4) 42%, rgba(8,15,11,0.05) 100%)",
+            "linear-gradient(90deg, rgba(232,238,231,0.86) 0%, rgba(232,238,231,0.45) 42%, rgba(232,238,231,0.04) 100%)",
         }}
         aria-hidden="true"
       />

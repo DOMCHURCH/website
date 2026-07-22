@@ -78,7 +78,7 @@ export function CollectionDrawer({
     >
       <div
         onClick={onClose}
-        className={`absolute inset-0 bg-forest/80 transition-opacity duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`absolute inset-0 bg-[rgba(26,42,31,0.42)] transition-opacity duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           open ? "opacity-100" : "opacity-0"
         }`}
       />

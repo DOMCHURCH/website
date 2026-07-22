@@ -3,11 +3,13 @@
 import { useRef, useState } from "react";
 import { gsap } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
+import { prefersReducedMotion } from "@/lib/motion";
 
 /**
  * Minimal intro — the wordmark and a thin progress rule resolve, then the
- * overlay lifts to reveal the hero (the video is already playing behind it).
- * Brief by design (~1.4s); scroll is locked only for that beat.
+ * overlay lifts to reveal the hero (the greenhouse frame sequence is already
+ * drawing behind it). Brief by design (~1.4s); scroll is locked only for that
+ * beat. Skipped entirely under reduced motion — no curtain, no scroll lock.
  */
 export function Loader() {
   const overlay = useRef<HTMLDivElement>(null);
@@ -16,6 +18,12 @@ export function Loader() {
   const [done, setDone] = useState(false);
 
   useIsomorphicLayoutEffect(() => {
+    // Reduced motion: no curtain, no scroll lock — reveal content immediately.
+    if (prefersReducedMotion()) {
+      setDone(true);
+      return;
+    }
+
     const root = document.documentElement;
     const prev = root.style.overflow;
     root.style.overflow = "hidden";

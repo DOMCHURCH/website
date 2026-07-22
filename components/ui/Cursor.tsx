@@ -5,7 +5,7 @@ import { gsap } from "@/lib/gsap";
 
 /**
  * Custom cursor — a tight dot + a lagging ring that swells over interactive
- * elements (the Ceremony-Coffee signature). Fine-pointer devices only; the
+ * elements (the Groundwork signature). Fine-pointer devices only; the
  * native cursor is hidden while active (via the `cursor-active` class, which
  * also reveals these nodes in CSS — so no render state is needed here).
  * Transform-driven via GSAP quickTo → stays on the compositor, near-zero cost.

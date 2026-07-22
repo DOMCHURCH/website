@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { gsap } from "@/lib/gsap";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 import { splitWords } from "@/lib/splitWords";
+import { prefersReducedMotion } from "@/lib/motion";
 
 type Tag = "h1" | "h2" | "h3" | "p" | "span" | "div" | "blockquote";
 
@@ -37,6 +38,8 @@ export function MaskReveal({
   useIsomorphicLayoutEffect(() => {
     const el = ref.current;
     if (!el) return;
+    // Reduced motion: leave the server-rendered text in place, unsplit.
+    if (prefersReducedMotion()) return;
     const split = splitWords(el);
     const ctx = gsap.context(() => {
       gsap.set(split.words, { yPercent: 115 });
