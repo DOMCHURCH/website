@@ -3,8 +3,6 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Reveal } from "@/components/ui/Reveal";
 import { IndexNumeral } from "@/components/ui/IndexNumeral";
 
-const HAIRLINE = "rgba(93,107,95,0.28)";
-
 export function Visit() {
   return (
     <section id="visit" className="relative w-full overflow-hidden py-32 sm:py-44">
@@ -20,21 +18,13 @@ export function Visit() {
           className="mb-20 sm:mb-28"
         />
 
-        <div
-          className="grid grid-cols-1 gap-px overflow-hidden rounded-sm md:grid-cols-3"
-          style={{ background: HAIRLINE, border: `1px solid ${HAIRLINE}` }}
-        >
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6">
           {LOCATIONS.map((loc, i) => (
             <Reveal
               key={loc.name}
               delay={i * 0.09}
-              className="card-lift group relative bg-canopy px-11 py-14"
+              className="glass glass-lift group relative rounded-2xl px-9 py-12 sm:px-11 sm:py-14"
             >
-              {/* Gold hairline draws across the top edge on hover */}
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-gold transition-transform duration-200 ease-out group-hover:scale-x-100"
-              />
               <h3 className="font-serif text-[56px] font-light leading-none text-cream">
                 {loc.name}
               </h3>

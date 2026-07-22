@@ -8,8 +8,6 @@ import { Magnetic } from "@/components/ui/Magnetic";
 import { IndexNumeral } from "@/components/ui/IndexNumeral";
 import { CollectionDrawer } from "@/components/ui/CollectionDrawer";
 
-const HAIRLINE = "rgba(93,107,95,0.28)";
-
 export function Collections() {
   const [active, setActive] = useState<Collection | null>(null);
   const [open, setOpen] = useState(false);
@@ -33,21 +31,13 @@ export function Collections() {
           className="mb-20 sm:mb-28"
         />
 
-        <div
-          className="grid grid-cols-1 gap-px overflow-hidden rounded-sm md:grid-cols-3"
-          style={{ background: HAIRLINE, border: `1px solid ${HAIRLINE}` }}
-        >
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6">
           {COLLECTIONS.map((c, i) => (
             <Reveal
               key={c.slug}
               delay={i * 0.09}
-              className="card-lift group relative flex min-h-[440px] flex-col bg-canopy px-11 pb-11 pt-12"
+              className="glass glass-lift group relative flex min-h-[440px] flex-col rounded-2xl px-9 pb-9 pt-11 sm:px-11 sm:pb-11 sm:pt-12"
             >
-              {/* Gold hairline draws across the top edge on hover */}
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-gold transition-transform duration-200 ease-out group-hover:scale-x-100"
-              />
               <button
                 type="button"
                 onClick={() => openCollection(c)}

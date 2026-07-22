@@ -24,18 +24,9 @@ export function Glasshouse() {
             “We grow to the plant, not the shelf.”
           </MaskReveal>
 
-          {/* Body steps sit on a soft paper scrim so dark type stays legible
-              over the bright imagery */}
-          <div className="relative">
-            <div
-              className="pointer-events-none absolute -inset-x-6 -inset-y-8 rounded-sm"
-              style={{
-                background:
-                  "linear-gradient(180deg, rgba(232,238,231,0.74), rgba(232,238,231,0.80))",
-              }}
-              aria-hidden="true"
-            />
-            <div className="relative flex flex-col gap-12">
+          {/* Body steps sit on a liquid-glass panel so dark type stays legible */}
+          <div className="glass rounded-2xl px-7 py-9 sm:px-9 sm:py-10">
+            <div className="flex flex-col gap-12">
               {GLASSHOUSE.map((step, i) => (
                 <Reveal key={step.label} delay={i * 0.12}>
                   <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.2em] text-gold">

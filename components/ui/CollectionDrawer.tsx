@@ -89,7 +89,7 @@ export function CollectionDrawer({
         aria-modal="true"
         aria-labelledby="collection-drawer-title"
         data-lenis-prevent
-        className="absolute right-0 top-0 h-full w-[min(92vw,540px)] overflow-y-auto bg-canopy shadow-[0_0_80px_-20px_rgba(0,0,0,0.9)] transition-transform duration-[340ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
+        className="glass-strong absolute right-0 top-0 h-full w-[min(92vw,540px)] overflow-y-auto shadow-[0_0_80px_-20px_rgba(0,0,0,0.55)] transition-transform duration-[340ms] ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
         style={{ transform: open ? "translateX(0)" : "translateX(100%)" }}
       >
         {collection && (
