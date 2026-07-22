@@ -189,12 +189,12 @@
     inset 0 1px 0 0 rgba(255, 255, 255, 0.22);
 }
 
-/* Denser glass for content-heavy surfaces (the modal) where legibility matters
-   most. Opens over frozen scroll → blur is cheap. Light text on top. */
+/* Dense surface for the modal. NO backdrop-filter: the modal scrolls its own
+   content, and blurring the backdrop while that repaints re-rasterises every
+   frame → scroll jank. A near-opaque dark card scrolls smoothly and reads
+   better anyway. Light text on top. */
 @utility glass-strong {
-  background: rgba(26, 30, 28, 0.72);
-  backdrop-filter: blur(20px) saturate(1.1);
-  -webkit-backdrop-filter: blur(20px) saturate(1.1);
+  background: rgba(24, 28, 26, 0.96);
   border: 1px solid rgba(255, 255, 255, 0.14);
 }
 

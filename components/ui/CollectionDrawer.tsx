@@ -83,11 +83,12 @@ export function CollectionDrawer({
       }`}
       aria-hidden={!open}
     >
-      {/* Backdrop — dims + softly blurs the page behind (scroll is frozen, so
-          the blur is cheap). Click to dismiss. */}
+      {/* Backdrop — a plain dim (NO backdrop-filter). A full-viewport blur here
+          re-rasterises every frame while the modal scrolls, which is what made
+          scrolling lag. The dim alone isolates the modal and is essentially free. */}
       <div
         onClick={onClose}
-        className={`absolute inset-0 bg-[rgba(16,22,18,0.55)] backdrop-blur-[2px] transition-opacity duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`absolute inset-0 bg-[rgba(14,19,16,0.62)] transition-opacity duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           open ? "opacity-100" : "opacity-0"
         }`}
       />
