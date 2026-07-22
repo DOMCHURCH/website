@@ -93,23 +93,27 @@ export function CollectionDrawer({
         }`}
       />
 
-      {/* Centred panel — scales + fades up from the middle of the page */}
+      {/* Centred square panel — springs open from the middle (back-out overshoot
+          on enter), closes faster than it opens. */}
       <div
         ref={panel}
         role="dialog"
         aria-modal="true"
         aria-labelledby="collection-modal-title"
         data-lenis-prevent
-        className={`glass-strong relative z-[1] max-h-[86vh] w-[min(94vw,560px)] overflow-y-auto rounded-2xl shadow-[0_30px_90px_-30px_rgba(0,0,0,0.7)] transition-[opacity,transform] ${
-          reduce ? "duration-0" : "duration-300"
-        } ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          open
-            ? "translate-y-0 scale-100 opacity-100"
-            : "translate-y-2 scale-[0.94] opacity-0"
+        className={`glass-strong relative z-[1] aspect-square max-h-[90vh] w-[min(88vw,460px)] overflow-y-auto rounded-2xl shadow-[0_30px_90px_-30px_rgba(0,0,0,0.7)] ${
+          open ? "scale-100 opacity-100" : "scale-90 opacity-0"
         }`}
+        style={{
+          transition: reduce
+            ? "none"
+            : open
+              ? "transform 380ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 240ms ease-out"
+              : "transform 220ms cubic-bezier(0.4, 0, 1, 1), opacity 200ms ease-in",
+        }}
       >
         {collection && (
-          <div className="flex min-h-full flex-col px-8 py-8 sm:px-12 sm:py-12">
+          <div className="flex min-h-full flex-col px-7 py-7 sm:px-9 sm:py-9">
             <div className="flex items-start justify-between">
               <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-gold">
                 {collection.tag}
@@ -127,7 +131,7 @@ export function CollectionDrawer({
 
             <h2
               id="collection-modal-title"
-              className="mt-6 font-serif text-[clamp(40px,7vw,60px)] font-light leading-[0.98] text-onglass"
+              className="mt-5 font-serif text-[clamp(30px,6vw,44px)] font-light leading-[1] text-onglass"
             >
               {collection.name}
             </h2>
@@ -135,12 +139,12 @@ export function CollectionDrawer({
               {collection.family}
             </p>
 
-            <p className="mt-8 max-w-prose text-[15px] font-light leading-[1.75] text-onglass/80">
+            <p className="mt-6 max-w-prose text-[14px] font-light leading-[1.7] text-onglass/80">
               {collection.description}
             </p>
 
             {/* Care */}
-            <div className="mt-12 border-t border-white/12 pt-8">
+            <div className="mt-8 border-t border-white/12 pt-6">
               <Label>Care</Label>
               <dl>
                 {collection.care.map((c) => (
@@ -160,7 +164,7 @@ export function CollectionDrawer({
             </div>
 
             {/* How it grows */}
-            <div className="mt-12 border-t border-white/12 pt-8">
+            <div className="mt-8 border-t border-white/12 pt-6">
               <Label>How it grows</Label>
               <p className="text-[15px] font-light leading-[1.75] text-onglass/80">
                 {collection.growing}
@@ -168,7 +172,7 @@ export function CollectionDrawer({
             </div>
 
             {/* In this collection */}
-            <div className="mt-12 border-t border-white/12 pt-8">
+            <div className="mt-8 border-t border-white/12 pt-6">
               <Label>In this collection</Label>
               <ul>
                 {collection.plants.map((p) => (
@@ -184,7 +188,7 @@ export function CollectionDrawer({
             </div>
 
             {/* CTA */}
-            <div className="mt-auto flex items-center justify-between gap-6 border-t border-white/12 pt-8">
+            <div className="mt-auto flex items-center justify-between gap-6 border-t border-white/12 pt-6">
               <span className="font-mono text-lg text-onglass">
                 {collection.price}
               </span>
