@@ -6,18 +6,25 @@ import { ScrollTrigger } from "@/lib/gsap";
 /**
  * Scroll-scrubbed image-sequence background (Apple / Awwwards technique).
  *
- * A fixed full-viewport <canvas> draws the frame that matches total page-scroll
- * progress, so the greenhouse pushes forward as you scroll, with all content
- * overlaid on top. A dark-verdant veil sits above it for text legibility.
+ * A fixed full-viewport <canvas> draws the frame matching total page-scroll
+ * progress, so the floating log moves as you scroll, with all content overlaid
+ * on top. A paper veil sits above it for text legibility.
  *
- * Performance / mobile:
+ * Fast first paint:
+ *  - The canvas is filled paper immediately (never the default opaque black).
+ *  - A small poster.jpg is fetched high-priority and drawn as an instant
+ *    placeholder, so the hero shows an image while the full set streams in.
+ *  - Frame 0 is high-priority; the rest are low-priority, so the first frame
+ *    wins bandwidth instead of competing with all 121 at once.
+ *
+ * Perf / mobile:
  *  - Device-tier sets: 121 frames @1920 (desktop) vs 61 @1280 (mobile) WebP.
  *  - One canvas draw per scroll rAF (deduped by frame index) — cheap.
- *  - Frames preload as <img>; draw skips any not-yet-decoded frame and keeps
- *    the previous one, so scrubbing never blocks or flashes.
- *  - DPR capped at 2; redraws on resize.
+ *  - Draw skips any not-yet-decoded frame and keeps the previous one, so
+ *    scrubbing never blocks or flashes. DPR capped at 2; redraws on resize.
  */
 
+const PAPER = "#e8eee7";
 const DESKTOP = { dir: "/frames/d", count: 121 };
 const MOBILE = { dir: "/frames/m", count: 61 };
 const pad = (n: number) => String(n).padStart(3, "0");
@@ -37,12 +44,8 @@ export function FrameSequence() {
     let target = 0;
     let raf = 0;
 
-    const draw = (idx: number, force = false) => {
-      const i = Math.max(0, Math.min(set.count - 1, Math.round(idx)));
-      if (i === current && !force) return;
-      const img = images[i];
-      if (!img || !img.complete || img.naturalWidth === 0) return;
-      current = i;
+    // Cover-fit an image onto the canvas (like background-size: cover).
+    const paintCover = (img: HTMLImageElement) => {
       const cw = cv.width;
       const ch = cv.height;
       const ir = img.naturalWidth / img.naturalHeight;
@@ -62,25 +65,53 @@ export function FrameSequence() {
       ctx.drawImage(img, dx, dy, dw, dh);
     };
 
+    const draw = (idx: number, force = false) => {
+      const i = Math.max(0, Math.min(set.count - 1, Math.round(idx)));
+      if (i === current && !force) return;
+      const img = images[i];
+      if (!img || !img.complete || img.naturalWidth === 0) return;
+      current = i;
+      paintCover(img);
+    };
+
+    // Instant placeholder: a single small poster, fetched ahead of the set.
+    const poster = new Image();
+    poster.decoding = "async";
+    poster.setAttribute("fetchpriority", "high");
+    poster.src = "/frames/poster.jpg";
+    poster.onload = () => {
+      if (current < 0) paintCover(poster);
+    };
+
     const resize = () => {
       cv.width = Math.round(cv.clientWidth * dpr);
       cv.height = Math.round(cv.clientHeight * dpr);
-      draw(current >= 0 ? current : 0, true);
+      // Resizing clears the canvas → repaint the best thing we have, and never
+      // leave it as the default black: current frame › poster › flat paper.
+      if (current >= 0 && images[current]?.complete) {
+        paintCover(images[current]);
+      } else if (poster.complete && poster.naturalWidth > 0) {
+        paintCover(poster);
+      } else {
+        ctx.fillStyle = PAPER;
+        ctx.fillRect(0, 0, cv.width, cv.height);
+      }
     };
+
+    resize();
+    window.addEventListener("resize", resize);
 
     for (let i = 0; i < set.count; i++) {
       const img = new Image();
       img.decoding = "async";
+      // First frame wins the bandwidth; the rest fill in behind it.
+      img.setAttribute("fetchpriority", i === 0 ? "high" : "low");
       img.src = `${set.dir}/frame-${pad(i + 1)}.webp`;
       img.onload = () => {
-        if (i === 0) resize();
-        if (i === Math.round(target)) draw(target);
+        if (i === Math.round(target)) draw(target, true);
       };
       images[i] = img;
     }
-
-    resize();
-    window.addEventListener("resize", resize);
 
     const st = ScrollTrigger.create({
       start: 0,
@@ -99,6 +130,7 @@ export function FrameSequence() {
       window.removeEventListener("resize", resize);
       if (raf) cancelAnimationFrame(raf);
       st.kill();
+      poster.onload = null;
       images.forEach((im) => {
         im.onload = null;
       });
@@ -107,11 +139,18 @@ export function FrameSequence() {
 
   return (
     <>
+      {/* Warm the placeholder before the JS runs so the hero paints ASAP */}
+      <link
+        rel="preload"
+        as="image"
+        href="/frames/poster.jpg"
+        fetchPriority="high"
+      />
       <canvas
         ref={canvas}
         aria-hidden="true"
         className="fixed inset-0 z-0 h-full w-full"
-        style={{ backgroundColor: "#e8eee7" }}
+        style={{ backgroundColor: PAPER }}
       />
       {/* Legibility veil — a paper wash top/bottom for nav + footer, the hero
           shows through the middle. Fixed, opacity-only → cheap. */}
